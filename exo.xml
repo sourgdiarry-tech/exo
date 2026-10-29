@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="breakfast_menu">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="food" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="name" type="xs:string"/>
+              
+              <!-- price : décimal > 0, format 0.00 -->
+              <xs:element name="price">
+                <xs:complexType>
+                  <xs:simpleContent>
+                    <xs:extension base="priceType">
+                      <xs:attribute name="unit" type="xs:string" use="required"/>
+                    </xs:extension>
+                  </xs:simpleContent>
+                </xs:complexType>
+              </xs:element>
+
+              <xs:element name="description" type="xs:string"/>
+              
+              <!-- calories : 100 à 2000 -->
+              <xs:element name="calories" type="caloriesType"/>
+
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!-- Type pour price : > 0 -->
+  <xs:simpleType name="priceType">
+    <xs:restriction base="xs:decimal">
+      <xs:minExclusive value="0"/>
+      <!-- format XX.XX obligatoire -->
+      <xs:pattern value="\d+\.\d{2}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Type pour calories : 100 à 2000 -->
+  <xs:simpleType name="caloriesType">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="100"/>
+      <xs:maxInclusive value="2000"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
